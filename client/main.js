@@ -1,5 +1,14 @@
+const { ParameterDescriptionMessage } = require("pg-protocol/dist/messages")
 
 const complimentBtn = document.getElementById("complimentButton")
+const fortuneBtn = document.getElementById("fortuneButton")
+const personForm = document.getElementById("person-form")
+const nameInput = document.getElementById('name')
+const powerInput = document.getElementById('power')
+const deleteForm = document.getElementById('delete-form')
+const deleteInput = document.getElementById('delete-name')
+const peopleSection = document.getElementById('people')
+
 
 const getCompliment = () => {
     axios.get("http://localhost:4000/api/compliment/")
@@ -9,10 +18,6 @@ const getCompliment = () => {
     });
 };
 
-complimentBtn.addEventListener('click', getCompliment);
-
-
-const fortuneBtn = document.getElementById("fortuneButton")
 
 const getFortune = () => {
     axios.get("http://localhost:4000/api/fortune/")
@@ -22,37 +27,57 @@ const getFortune = () => {
     });  
 };
 
-fortuneBtn.addEventListener('click', getFortune);
+const postPerson = (event) => {
+    event.preventDefault()
+    peopleSection.innerHTML = ''
 
-const getQuestion = () => {
-    axios.get("http://localhost:4000/api/question/")
-    .then(res => {
-        const data = res.data;
-        alert(data);
-    });  
-};
+    const body = () => {
+        name: nameInput.value
+        power: powerInput.value
+    }
+    axios.post("http://localhost:4000/api/person/", body)  
+        .then((response) => {
+            const data = response.data; 
+            showPeopleOnDom(data)
 
-questionBtn.addEventListener('click', getQuestion);
+        })
+        
+        nameInput.value = ''
+        powerInput.value = ''
+    }
+
+const deletePerson = (event) => {
+    event.preventDefault()
+    peopleSection.innerHTML = ''
+    
+    const name = deleteInput.value
+
+    axios.delete(`http://localhost:4000/api/delete/${name}`)
+    .then((response) => {
+        const data = response.data; 
+        showPeopleOnDom(data)
 
 
-const getEducation = () => {
-    axios.get("http://localhost:4000/api/education/")
-    .then(res => {
-        const data = res.data;
-        alert(data);
-    });  
-};
-
-educationBtn.addEventListener('click', getEducation);
+    })
+}
 
 
+const showPeopleOnDom = (data) => {
 
-const getBirth = () => {
-    axios.get("http://localhost:4000/api/birth/")
-    .then(res => {
-        const data = res.data;
-        alert(data);
-    });  
-};
 
-birthBtn.addEventListener('click', getBirth);
+     for (let i = 0; i < data.length; i++) {
+      let para = document.createElement('p')
+      para.innerHTML =  `
+       <span class="name-text">${data[i].name}</span> has power <span> class = "power-text">${data[i].power}</span>
+      ` 
+       peopleSection.appendChild(para)
+
+    }
+
+}
+
+
+complimentBtn.addEventListener('click', getCompliment)
+fortuneBtn.addEventListener('click', getFortune)
+personForm.addEventListener('submit', postPerson)
+deleteForm.addEventListener('submit', deletePerson)

@@ -23,35 +23,48 @@ module.exports = {
     },
 
 
-    getQuestion: (req, res) => {
-        const questions = ["What is your name?", "What is your favorite color?", "What is your favorite food?", "What is your favorite vacation spot?", "Where do you see yourself in five years?"];    
+    createNewPerson: (req, res) => {
+     
+        let {name, power} = req.body
 
-        let randomIndex = Math.floor(Math.random() * fortunes.length);
-        let randomQuestion = questions[randomIndex];
+        db.push({name: name, power: isNaN(+power) ? 1 : +power})
 
-        res.status(200).send(randomQuestion);
-
-    },
-
-
-    getEducation: (req, res) => {
-        const edQuestions = ["What is the name of your favorite teacher?", "What was your favorite subject in High school?", "Did you go to college?"];    
-
-        let randomIndex = Math.floor(Math.random() * fortunes.length);
-        let randomEducation = edQuestions[randomIndex];
-
-        res.status(200).send(randomEducation);
-
-    },
-
-
-    getBirth: (req, res) => {
-        const birthQuestions = ["What was your weight at birth?", "In what city were you bown?"];    
-
-        let randomIndex = Math.floor(Math.random() * fortunes.length);
-        let randomEducation = birthQuestions[randomIndex];
-
-        res.status(200).send(randomEducation);
-
+        res.send(db)
     }
+
+}, 
+
+    deletePerson: (req, res) => {
+        let {name} = req.params
+
+        for (let i=0; i < db.length; i++) {
+                if (name === db[i].name) {
+                    db.splice(i, 1)
+
+                }
+    }
+
+    res.send(db)
 }
+
+
+
+const db = [
+
+    {
+    name: 'Taha',
+    power: 5000,
+    
+    },
+
+    {
+    name: 'Chris',
+    power: 4000,
+        
+    }
+
+
+    ]
+
+
+

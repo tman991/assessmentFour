@@ -5,19 +5,23 @@
   </head>
   <body class="container">
     <button id="complimentButton">Get a compliment</button>
-
-    <body class="container">
       <button id="fortuneButton">Random Fortune</button>
 
-      <body class="container">
-        <button id="questionButton">Pick a Question</button>
+      <form id="person-form">
+        <label for="name">Name:</label>
+        <input id="name" type="text"/>
+        <label for="power">Power level:</label>
+        <input id="power" type="text"/>
+        <button>Submit</button>
+      </form>
 
-        <body class="container">
-          <button id="educationButton">Highest Degree</button>
+      <form id="delete-form">
+        <label for="delete-name">Delete a person by name:</label>
+        <input id="delete-name" type="text"/>
+        <button>Submit</button>
+      </form>
 
-          <body class="container">
-            <button id="birthButton">Place of Birth</button>
-
+      <section id="people"></section>
 
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
