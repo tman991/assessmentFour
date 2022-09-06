@@ -7,6 +7,8 @@ const nameInput = document.getElementById('name')
 const powerInput = document.getElementById('power')
 const deleteForm = document.getElementById('delete-form')
 const deleteInput = document.getElementById('delete-name')
+const incForm = document.getElementById('inc-form')
+const incInput = document.getElementById('inc-name')
 const peopleSection = document.getElementById('people')
 
 
@@ -61,6 +63,20 @@ const deletePerson = (event) => {
     })
 }
 
+constIncPower = (event) => {
+    event.preventDefault()
+    peopleSection.innerHTML = ''
+
+    const incName = incInput.value
+
+    axios.put(`http://localhost:4000/api/inc?name=${incName}`)
+    .then((response) => {
+        const data = response.data;
+        showPeopleOnDom(data)
+    })
+
+}
+
 
 const showPeopleOnDom = (data) => {
 
@@ -81,3 +97,4 @@ complimentBtn.addEventListener('click', getCompliment)
 fortuneBtn.addEventListener('click', getFortune)
 personForm.addEventListener('submit', postPerson)
 deleteForm.addEventListener('submit', deletePerson)
+incForm.addEventListener('submit', incPower)

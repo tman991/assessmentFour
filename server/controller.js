@@ -30,9 +30,9 @@ module.exports = {
         db.push({name: name, power: isNaN(+power) ? 1 : +power})
 
         res.send(db)
-    }
+    },
 
-}, 
+} 
 
     deletePerson: (req, res) => {
         let {name} = req.params
@@ -48,22 +48,31 @@ module.exports = {
 }
 
 
+incPower: (req, res) => {
+    let {name} = req.query
+
+    for (let i = 0; i < db.length; i++) {
+        if (name === db[i].name) {
+            db[i].power = db[i].power + 100
+        }
+    }
+
+    res.send(db)
+}
+
+
 
 const db = [
-
     {
     name: 'Taha',
     power: 5000,
     
     },
-
     {
     name: 'Chris',
     power: 4000,
         
     }
-
-
     ]
 
 
